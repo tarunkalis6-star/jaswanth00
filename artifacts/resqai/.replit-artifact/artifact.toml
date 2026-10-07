@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ResQAI Emergency Intelligence"
+description = "A public emergency intelligence dashboard for reviewing reported hazards, clear safety guidance and verified sources, with a fast citizen dispatch flow."
+version = "1.0.0"
+id = "artifacts/resqai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22827
+
+[services.development]
+run = "pnpm --filter @workspace/resqai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/resqai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/resqai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22827"
+BASE_PATH = "/"
